@@ -88,9 +88,9 @@ const Matching = () => {
   });
 
   const getScoreColor = (score) => {
-    if (score >= 0.8) return 'text-green-600 bg-green-100';
-    if (score >= 0.6) return 'text-yellow-600 bg-yellow-100';
-    return 'text-gray-600 bg-gray-100';
+    if (score >= 0.8) return 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-950/40';
+    if (score >= 0.6) return 'text-yellow-600 bg-yellow-100 dark:text-yellow-400 dark:bg-yellow-950/40';
+    return 'text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-800';
   };
 
   const getScoreText = (score) => {
@@ -103,7 +103,7 @@ const Matching = () => {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <span className="ml-3 text-gray-600">Finding your perfect matches...</span>
+        <span className="ml-3 text-gray-600 dark:text-gray-450">Finding your perfect matches...</span>
       </div>
     );
   }
@@ -111,21 +111,21 @@ const Matching = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-              <Users className="h-6 w-6 mr-2 text-blue-600" />
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+              <Users className="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" />
               Alumni Matching
             </h1>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
               Connect with alumni who share your background and can guide your career journey
             </p>
           </div>
           
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium py-2 px-4 rounded-lg transition-colors flex items-center"
+            className="bg-gray-100 hover:bg-gray-250 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center"
           >
             <Filter className="h-4 w-4 mr-2" />
             Filters
@@ -134,14 +134,14 @@ const Matching = () => {
 
         {/* Filters */}
         {showFilters && (
-          <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
+          <div className="mt-6 p-4 border border-gray-200 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-950">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Minimum Match Score</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Minimum Match Score</label>
                 <select
                   value={filters.minScore}
                   onChange={(e) => setFilters(prev => ({ ...prev, minScore: parseInt(e.target.value) }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 >
                   <option value={50}>50%+</option>
                   <option value={60}>60%+</option>
@@ -152,11 +152,11 @@ const Matching = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Location Match</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location Match</label>
                 <select
                   value={filters.location}
                   onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 >
                   <option value="">Any Location</option>
                   <option value="same">Same Region</option>
@@ -164,11 +164,11 @@ const Matching = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Industry</label>
                 <select
                   value={filters.industry}
                   onChange={(e) => setFilters(prev => ({ ...prev, industry: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 >
                   <option value="">Any Industry</option>
                   <option value="Technology">Technology</option>
@@ -179,11 +179,11 @@ const Matching = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Background</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Background</label>
                 <select
                   value={filters.background}
                   onChange={(e) => setFilters(prev => ({ ...prev, background: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 >
                   <option value="">Any Background</option>
                   <option value="similar">Similar Background</option>
@@ -198,65 +198,65 @@ const Matching = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredMatches.length > 0 ? (
           filteredMatches.map((match, index) => (
-            <div key={match.alumni_id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div key={match.alumni_id} className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 hover:shadow-md transition-shadow">
               {/* Match Score */}
               <div className="flex items-center justify-between mb-4">
                 <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreColor(match.overall_score)}`}>
                   {Math.round(match.overall_score * 100)}% Match
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   {getScoreText(match.overall_score)}
                 </div>
               </div>
 
               {/* Alumni Info */}
               <div className="text-center mb-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Briefcase className="h-8 w-8 text-blue-600" />
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900/40 dark:to-blue-800/40 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Briefcase className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900">Sarah Johnson</h3>
-                <p className="text-sm text-gray-600">Senior Software Engineer at TechCorp</p>
-                <p className="text-xs text-gray-500 mt-1">Computer Science '18</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Sarah Johnson</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-350">Senior Software Engineer at TechCorp</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Computer Science '18</p>
               </div>
 
               {/* Matching Factors */}
               <div className="space-y-3 mb-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 flex items-center">
+                  <span className="text-gray-600 dark:text-gray-450 flex items-center">
                     <MapPin className="h-4 w-4 mr-1" />
                     Location
                   </span>
-                  <span className="font-medium">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
                     {match.location_score > 0.7 ? 'Same Region' : 'Different'}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 flex items-center">
+                  <span className="text-gray-600 dark:text-gray-450 flex items-center">
                     <Award className="h-4 w-4 mr-1" />
                     Background
                   </span>
-                  <span className="font-medium">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
                     {Math.round(match.background_score * 100)}%
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 flex items-center">
+                  <span className="text-gray-600 dark:text-gray-450 flex items-center">
                     <GraduationCap className="h-4 w-4 mr-1" />
                     Interests
                   </span>
-                  <span className="font-medium">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
                     {Math.round(match.interest_score * 100)}%
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 flex items-center">
+                  <span className="text-gray-600 dark:text-gray-450 flex items-center">
                     <Star className="h-4 w-4 mr-1" />
                     Skills
                   </span>
-                  <span className="font-medium">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
                     {Math.round(match.skill_score * 100)}%
                   </span>
                 </div>
@@ -265,8 +265,8 @@ const Matching = () => {
               {/* Matching Factors Highlights */}
               {match.matching_factors && match.matching_factors.length > 0 && (
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">Why you're matched:</h4>
-                  <ul className="text-xs text-gray-600 space-y-1">
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Why you're matched:</h4>
+                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
                     {match.matching_factors.slice(0, 3).map((factor, idx) => (
                       <li key={idx} className="flex items-start">
                         <Heart className="h-3 w-3 text-blue-500 mr-1 mt-0.5 flex-shrink-0" />
@@ -284,14 +284,14 @@ const Matching = () => {
                   disabled={match.connection_status === 'pending'}
                   className={`flex-1 ${
                     match.connection_status === 'pending' 
-                      ? 'bg-gray-400 cursor-not-allowed' 
+                      ? 'bg-gray-450 dark:bg-slate-750 text-gray-500 cursor-not-allowed' 
                       : 'bg-blue-600 hover:bg-blue-700'
                   } text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm`}
                 >
                   {match.connection_status === 'pending' ? 'Request Sent' : 'Connect'}
                 </button>
                 
-                <button className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium p-2 rounded-lg transition-colors">
+                <button className="bg-gray-100 hover:bg-gray-250 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-medium p-2 rounded-lg transition-colors">
                   <MessageCircle className="h-4 w-4" />
                 </button>
               </div>
@@ -299,9 +299,9 @@ const Matching = () => {
           ))
         ) : (
           <div className="col-span-full text-center py-12">
-            <Users className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No matches found</h3>
-            <p className="text-gray-600 mb-4">
+            <Users className="h-16 w-16 text-gray-300 dark:text-gray-650 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No matches found</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Try adjusting your filters to see more matches.
             </p>
           </div>
@@ -310,28 +310,28 @@ const Matching = () => {
 
       {/* Match Breakdown */}
       {filteredMatches.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">How Matching Works</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">How Matching Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 mb-1">25%</div>
-              <div className="text-sm text-gray-600">Background Similarity</div>
+            <div className="p-4 border border-gray-200 dark:border-slate-800 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">25%</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Background Similarity</div>
             </div>
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 mb-1">20%</div>
-              <div className="text-sm text-gray-600">Location Match</div>
+            <div className="p-4 border border-gray-200 dark:border-slate-800 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">20%</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Location Match</div>
             </div>
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 mb-1">20%</div>
-              <div className="text-sm text-gray-600">Interest Alignment</div>
+            <div className="p-4 border border-gray-200 dark:border-slate-800 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">20%</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Interest Alignment</div>
             </div>
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 mb-1">20%</div>
-              <div className="text-sm text-gray-600">Skill Compatibility</div>
+            <div className="p-4 border border-gray-200 dark:border-slate-800 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">20%</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Skill Compatibility</div>
             </div>
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 mb-1">15%</div>
-              <div className="text-sm text-gray-600">Career Alignment</div>
+            <div className="p-4 border border-gray-200 dark:border-slate-800 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">15%</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Career Alignment</div>
             </div>
           </div>
         </div>

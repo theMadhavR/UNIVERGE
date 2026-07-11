@@ -283,20 +283,20 @@ const Chat = () => {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <span className="ml-3 text-gray-600">Loading your conversations...</span>
+        <span className="ml-3 text-gray-600 dark:text-gray-400">Loading your conversations...</span>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto h-[calc(100vh-200px)] bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="max-w-6xl mx-auto h-[calc(100vh-200px)] bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden">
       <div className="flex h-full">
         {/* Sidebar - Chat List */}
-        <div className="w-80 border-r border-gray-200 flex flex-col">
+        <div className="w-80 border-r border-gray-200 dark:border-slate-800 flex flex-col">
           {/* Header */}
-          <div className="p-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-              <MessageCircle className="h-5 w-5 mr-2 text-blue-600" />
+          <div className="p-4 border-b border-gray-200 dark:border-slate-800">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+              <MessageCircle className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
               Messages
             </h2>
             
@@ -308,7 +308,7 @@ const Chat = () => {
                 placeholder="Search conversations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -320,30 +320,30 @@ const Chat = () => {
                 <div
                   key={chat.chat_id}
                   onClick={() => selectChat(chat)}
-                  className={`p-4 border-b border-gray-100 cursor-pointer transition-colors ${
+                  className={`p-4 border-b border-gray-100 dark:border-slate-800 cursor-pointer transition-colors ${
                     activeChat?.chat_id === chat.chat_id 
-                      ? 'bg-blue-50 border-blue-200' 
-                      : 'hover:bg-gray-50'
+                      ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/40' 
+                      : 'hover:bg-gray-50 dark:hover:bg-slate-850/50'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
-                      <Users className="h-6 w-6 text-blue-600" />
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900/40 dark:to-blue-800/40 rounded-full flex items-center justify-center">
+                      <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
                     
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-gray-900 truncate">
+                        <h3 className="font-medium text-gray-900 dark:text-white truncate">
                           {chat.other_participant?.display_name || 'Unknown User'}
                         </h3>
                         {chat.last_message && (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             {formatTime(chat.last_message.timestamp)}
                           </span>
                         )}
                       </div>
                       
-                      <p className="text-sm text-gray-600 truncate mt-1">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 truncate mt-1">
                         {chat.last_message?.content || 'No messages yet'}
                       </p>
                     </div>
@@ -358,8 +358,8 @@ const Chat = () => {
               ))
             ) : (
               <div className="p-8 text-center">
-                <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500 text-sm">
+                <MessageCircle className="h-12 w-12 text-gray-300 dark:text-gray-650 mx-auto mb-3" />
+                <p className="text-gray-550 dark:text-gray-400 text-sm">
                   {chats.length === 0 
                     ? 'No conversations yet. Connect with alumni to start chatting.'
                     : 'No conversations match your search.'
@@ -375,29 +375,29 @@ const Chat = () => {
           {activeChat ? (
             <>
               {/* Chat Header */}
-              <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+              <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
-                    <Users className="h-5 w-5 text-blue-600" />
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900/40 dark:to-blue-800/40 rounded-full flex items-center justify-center">
+                    <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
                       {activeChat.other_participant?.display_name || 'Unknown User'}
                     </h3>
-                    <p className="text-sm text-gray-500 capitalize">
+                    <p className="text-sm text-gray-550 dark:text-gray-400 capitalize">
                       {activeChat.other_participant?.user_type || 'user'} • {isConnected ? 'Online' : 'Offline'}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                  <button className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     <Phone className="h-5 w-5" />
                   </button>
-                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                  <button className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     <Video className="h-5 w-5" />
                   </button>
-                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                  <button className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     <Info className="h-5 w-5" />
                   </button>
                 </div>
@@ -419,13 +419,13 @@ const Chat = () => {
                             className={`px-4 py-2 rounded-2xl ${
                               isOwnMessage
                                 ? 'bg-blue-600 text-white rounded-br-none'
-                                : 'bg-gray-100 text-gray-900 rounded-bl-none'
+                                : 'bg-gray-100 dark:bg-slate-800 text-gray-900 dark:text-gray-100 rounded-bl-none'
                             }`}
                           >
                             <p className="text-sm">{message.content}</p>
                           </div>
                           <div className={`flex items-center mt-1 text-xs ${
-                            isOwnMessage ? 'justify-end text-gray-500' : 'text-gray-400'
+                            isOwnMessage ? 'justify-end text-gray-500 dark:text-gray-400' : 'text-gray-400 dark:text-gray-505'
                           }`}>
                             <span>{formatMessageTime(message.timestamp)}</span>
                             {isOwnMessage && (
@@ -433,7 +433,7 @@ const Chat = () => {
                                 {message.read ? (
                                   <CheckCheck className="h-3 w-3 text-blue-500 inline" />
                                 ) : (
-                                  <Check className="h-3 w-3 text-gray-400 inline" />
+                                  <Check className="h-3 w-3 text-gray-400 dark:text-gray-505 inline" />
                                 )}
                               </span>
                             )}
@@ -444,8 +444,8 @@ const Chat = () => {
                   })
                 ) : (
                   <div className="text-center py-8">
-                    <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500 text-sm">
+                    <MessageCircle className="h-12 w-12 text-gray-300 dark:text-gray-650 mx-auto mb-3" />
+                    <p className="text-gray-550 dark:text-gray-400 text-sm">
                       No messages yet. Start the conversation!
                     </p>
                   </div>
@@ -454,12 +454,12 @@ const Chat = () => {
               </div>
 
               {/* Message Input */}
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-gray-200 dark:border-slate-800">
                 <div className="flex space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                  <button className="p-2 text-gray-400 hover:text-blue-650 dark:hover:text-blue-400 transition-colors">
                     <Paperclip className="h-5 w-5" />
                   </button>
-                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                  <button className="p-2 text-gray-400 hover:text-blue-650 dark:hover:text-blue-400 transition-colors">
                     <Smile className="h-5 w-5" />
                   </button>
                   <input
@@ -468,7 +468,7 @@ const Chat = () => {
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type a message..."
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                   
                   <button
@@ -484,9 +484,9 @@ const Chat = () => {
           ) : (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <MessageCircle className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No Chat Selected</h3>
-                <p className="text-gray-600">
+                <MessageCircle className="h-16 w-16 text-gray-300 dark:text-gray-650 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No Chat Selected</h3>
+                <p className="text-gray-600 dark:text-gray-400">
                   Select a conversation from the list to start messaging
                 </p>
               </div>

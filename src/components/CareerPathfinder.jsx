@@ -131,14 +131,14 @@ const CareerPathfinder = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
         <div className="flex items-center space-x-4">
           <div className="p-3 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl">
             <Compass className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Career Pathfinder</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Career Pathfinder</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
               AI-powered career guidance tailored to your background and goals
             </p>
           </div>
@@ -148,31 +148,31 @@ const CareerPathfinder = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Career Goals Form */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Target className="h-5 w-5 mr-2 text-purple-600" />
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 sticky top-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Target className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400" />
               Your Career Goals
             </h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Career Goal / Desired Role</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Career Goal / Desired Role</label>
                 <input
                   type="text"
                   {...register('career_goal', { required: 'Career goal is required' })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                   placeholder="e.g., Software Engineer, Marketing Manager"
                 />
                 {errors.career_goal && (
-                  <p className="text-red-600 text-sm mt-1">{errors.career_goal.message}</p>
+                  <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.career_goal.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Timeline</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Timeline</label>
                 <select
                   {...register('timeline')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 >
                   <option value="6-12 months">6-12 months</option>
                   <option value="1-2 years">1-2 years</option>
@@ -183,10 +183,10 @@ const CareerPathfinder = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Current Priority</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Priority</label>
                 <select
                   {...register('priority')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 >
                   <option value="skill_development">Skill Development</option>
                   <option value="networking">Networking</option>
@@ -197,7 +197,7 @@ const CareerPathfinder = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Challenges You're Facing</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Challenges You're Facing</label>
                 <div className="space-y-2 mt-2 max-h-48 overflow-y-auto">
                   {challengesOptions.map((challenge) => (
                     <label key={challenge} className="flex items-center">
@@ -205,9 +205,9 @@ const CareerPathfinder = () => {
                         type="checkbox"
                         value={challenge}
                         {...register('challenges')}
-                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-purple-600 dark:bg-slate-800 focus:ring-purple-500 border-gray-300 dark:border-slate-700 rounded"
                       />
-                      <span className="ml-2 text-sm text-gray-700">{challenge}</span>
+                      <span className="ml-2 text-sm text-gray-700 dark:text-gray-350">{challenge}</span>
                     </label>
                   ))}
                 </div>
@@ -234,40 +234,40 @@ const CareerPathfinder = () => {
         {/* Recommendations */}
         <div className="lg:col-span-2 space-y-6">
           {insightsLoading ? (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-8 text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Analyzing your profile for career insights...</p>
+              <p className="text-gray-600 dark:text-gray-400">Analyzing your profile for career insights...</p>
             </div>
           ) : recommendations ? (
             <>
               {/* Recommended Paths */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <TrendingUp className="h-5 w-5 mr-2 text-purple-600" />
+              <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <TrendingUp className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400" />
                   Recommended Career Paths
                 </h2>
 
                 <div className="space-y-4">
                   {recommendations.recommended_paths?.map((path, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div key={index} className="border border-gray-200 dark:border-slate-800 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-semibold text-gray-900">{path}</h3>
-                        <div className="flex items-center text-sm text-yellow-600">
+                        <h3 className="font-semibold text-gray-900 dark:text-white">{path}</h3>
+                        <div className="flex items-center text-sm text-yellow-600 dark:text-yellow-500">
                           <Star className="h-4 w-4 mr-1 fill-current" />
                           {Math.round(recommendations.confidence_score * 100)}% Match
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center text-gray-600 dark:text-gray-400">
                           <Clock className="h-4 w-4 mr-2" />
                           Timeline: {recommendations.timeline}
                         </div>
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center text-gray-600 dark:text-gray-400">
                           <Users className="h-4 w-4 mr-2" />
                           {recommendations.potential_alumni?.length || 0} Alumni Matches
                         </div>
-                        <div className="flex items-center text-gray-600">
+                        <div className="flex items-center text-gray-600 dark:text-gray-400">
                           <BookOpen className="h-4 w-4 mr-2" />
                           {recommendations.suggested_courses?.length || 0} Courses
                         </div>
@@ -279,17 +279,17 @@ const CareerPathfinder = () => {
 
               {/* Skills Development */}
               {recommendations.required_skills && recommendations.required_skills.length > 0 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <Zap className="h-5 w-5 mr-2 text-purple-600" />
+                <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                    <Zap className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400" />
                     Skills to Develop
                   </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {recommendations.required_skills.map((skill, index) => (
-                      <div key={index} className="flex items-center p-3 border border-gray-200 rounded-lg">
+                      <div key={index} className="flex items-center p-3 border border-gray-200 dark:border-slate-800 rounded-lg">
                         <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                        <span className="text-gray-700">{skill}</span>
+                        <span className="text-gray-700 dark:text-gray-300">{skill}</span>
                       </div>
                     ))}
                   </div>
@@ -298,20 +298,20 @@ const CareerPathfinder = () => {
 
               {/* Learning Resources */}
               {recommendations.suggested_courses && recommendations.suggested_courses.length > 0 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2 text-purple-600" />
+                <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                    <BookOpen className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400" />
                     Learning Resources
                   </h2>
 
                   <div className="space-y-3">
                     {recommendations.suggested_courses.map((course, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                      <div key={index} className="flex items-center justify-between p-3 border border-gray-200 dark:border-slate-800 rounded-lg hover:shadow-md transition-shadow">
                         <div>
-                          <h4 className="font-medium text-gray-900">{course}</h4>
-                          <p className="text-sm text-gray-600 mt-1">Online Course / Workshop</p>
+                          <h4 className="font-medium text-gray-900 dark:text-white">{course}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Online Course / Workshop</p>
                         </div>
-                        <button className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium py-1 px-3 rounded-lg text-sm flex items-center transition-colors">
+                        <button className="bg-gray-100 hover:bg-gray-250 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-medium py-1 px-3 rounded-lg text-sm flex items-center transition-colors">
                           Explore <ArrowRight className="h-3 w-3 ml-1" />
                         </button>
                       </div>
@@ -322,36 +322,36 @@ const CareerPathfinder = () => {
 
               {/* AI Insights */}
               {recommendations.reasoning && recommendations.reasoning.length > 0 && (
-                <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
-                  <h2 className="text-lg font-semibold text-purple-900 mb-3 flex items-center">
-                    <Lightbulb className="h-5 w-5 mr-2 text-purple-600" />
+                <div className="bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/40 rounded-xl p-6">
+                  <h2 className="text-lg font-semibold text-purple-900 dark:text-purple-350 mb-3 flex items-center">
+                    <Lightbulb className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400" />
                     AI Career Insights
                   </h2>
                   
                   <div className="space-y-3">
                     {recommendations.reasoning.map((insight, index) => (
-                      <p key={index} className="text-purple-800 text-sm leading-relaxed">
+                      <p key={index} className="text-purple-800 dark:text-purple-300 text-sm leading-relaxed">
                         {insight}
                       </p>
                     ))}
                   </div>
 
                   {recommendations.note && (
-                    <div className="mt-4 p-3 bg-purple-100 rounded-lg">
-                      <p className="text-purple-700 text-sm">{recommendations.note}</p>
+                    <div className="mt-4 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                      <p className="text-purple-700 dark:text-purple-350 text-sm">{recommendations.note}</p>
                     </div>
                   )}
                 </div>
               )}
             </>
           ) : (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-              <Rocket className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No Career Insights Yet</h3>
-              <p className="text-gray-600 mb-6">
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-12 text-center">
+              <Rocket className="h-16 w-16 text-gray-300 dark:text-gray-650 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No Career Insights Yet</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Share your career goals to get personalized AI-powered recommendations based on your background.
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-500">
                 Complete the form to see your customized career path.
               </p>
             </div>

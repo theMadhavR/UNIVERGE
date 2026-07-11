@@ -74,11 +74,11 @@ const Profile = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Your Profile</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
               {isAlumni 
                 ? 'Share your experience and help guide the next generation'
                 : 'Tell us about yourself to get personalized matches and guidance'
@@ -87,7 +87,7 @@ const Profile = () => {
           </div>
           <div className="flex items-center space-x-2">
             <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-              isAlumni ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
+              isAlumni ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300' : 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300'
             }`}>
               {isAlumni ? 'Alumni' : 'Student'}
             </div>
@@ -97,53 +97,53 @@ const Profile = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Basic Information */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <Award className="h-5 w-5 mr-2 text-blue-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+            <Award className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
             Basic Information
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name *</label>
               <input
                 type="text"
                 {...register('first_name', { required: 'First name is required' })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               {errors.first_name && (
-                <p className="text-red-600 text-sm mt-1">{errors.first_name.message}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.first_name.message}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name *</label>
               <input
                 type="text"
                 {...register('last_name', { required: 'Last name is required' })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               {errors.last_name && (
-                <p className="text-red-600 text-sm mt-1">{errors.last_name.message}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.last_name.message}</p>
               )}
             </div>
           </div>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
             <textarea
               rows={3}
               {...register('bio')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Tell us about yourself, your interests, and your goals..."
             />
           </div>
         </div>
 
         {/* Background */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <Home className="h-5 w-5 mr-2 text-blue-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+            <Home className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
             Background
           </h2>
           
@@ -154,9 +154,9 @@ const Profile = () => {
                   type="checkbox"
                   id={option.id}
                   {...register(`background.${option.id}`)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-blue-600 dark:bg-slate-800 dark:border-slate-700 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label htmlFor={option.id} className="ml-2 text-sm text-gray-700">
+                <label htmlFor={option.id} className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                   {option.label}
                 </label>
               </div>
@@ -165,48 +165,48 @@ const Profile = () => {
         </div>
 
         {/* Location */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <MapPin className="h-5 w-5 mr-2 text-blue-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+            <MapPin className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
             Location
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Hometown</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hometown</label>
               <input
                 type="text"
                 {...register('location.hometown')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Your hometown"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">State/Province</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State/Province</label>
               <input
                 type="text"
                 {...register('location.state')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="State or province"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
               <input
                 type="text"
                 {...register('location.country')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Country"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Region</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Region</label>
               <select
                 {...register('location.region')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Select region</option>
                 <option value="north_america">North America</option>

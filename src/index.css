@@ -150,3 +150,41 @@ body {
 .alert-error {
   @apply bg-red-50 border-red-200 text-red-800;
 }
+
+/* Dark mode base and class overrides */
+.dark body {
+  background-color: #0b0f19;
+  color: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+.dark .btn-secondary {
+  @apply bg-slate-800 hover:bg-slate-700 text-white focus:ring-slate-500 focus:ring-offset-slate-900;
+}
+
+.dark .form-input {
+  @apply bg-slate-900 border-slate-700 text-white focus:ring-primary-500 focus:border-primary-500;
+}
+
+.dark .form-label {
+  @apply text-slate-300;
+}
+
+.dark .badge-gray {
+  @apply bg-slate-800 text-slate-300;
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}

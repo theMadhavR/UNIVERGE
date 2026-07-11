@@ -1,7 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
 import { SocketProvider } from './hooks/useSocket';
+import { ThemeProvider, useTheme } from './hooks/useTheme';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import Auth from './components/Auth';
 import Dashboard from './components/Dashboard';
@@ -12,28 +14,50 @@ import Storyboard from './components/Storyboard';
 import ImpactTracker from './components/ImpactTracker';
 import Chat from './components/Chat';
 
+function ThemeApplier() {
+  const { theme } = useTheme();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }, [theme, location.pathname]);
+
+  return null;
+}
+
 function App() {
   return (
-    <AuthProvider>
-      <SocketProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/matching" element={<Matching />} />
-              <Route path="/career-pathfinder" element={<CareerPathfinder />} />
-              <Route path="/storyboard" element={<Storyboard />} />
-              <Route path="/impact" element={<ImpactTracker />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="*" element={<div>Page Not Found</div>} />
-            </Routes>
-          </div>
-        </Router>
-      </SocketProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <Router>
+            <ThemeApplier />
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+                <Route path="/profile" element={<Layout><Profile /></Layout>} />
+                <Route path="/matching" element={<Layout><Matching /></Layout>} />
+                <Route path="/career-pathfinder" element={<Layout><CareerPathfinder /></Layout>} />
+                <Route path="/storyboard" element={<Layout><Storyboard /></Layout>} />
+                <Route path="/impact" element={<Layout><ImpactTracker /></Layout>} />
+                <Route path="/chat" element={<Layout><Chat /></Layout>} />
+                <Route path="*" element={<div>Page Not Found</div>} />
+              </Routes>
+            </div>
+          </Router>
+        </SocketProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
