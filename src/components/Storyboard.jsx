@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useForm } from 'react-hook-form';
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Edit,
+  Trash2,
   Calendar,
   MapPin,
   Award,
@@ -111,9 +111,9 @@ const Storyboard = () => {
     };
 
     const updatedItems = editingItem
-      ? storyboard.timeline_items.map(item => 
-          item.item_id === editingItem.item_id ? newItem : item
-        )
+      ? storyboard.timeline_items.map(item =>
+        item.item_id === editingItem.item_id ? newItem : item
+      )
       : [...(storyboard.timeline_items || []), newItem];
 
     const updatedStoryboard = {
@@ -206,7 +206,7 @@ const Storyboard = () => {
               Build your career journey timeline and share your experiences
             </p>
           </div>
-          
+
           <button
             onClick={() => setShowAddForm(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center transition-colors"
@@ -217,10 +217,10 @@ const Storyboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Storyboard Form */}
-        <div className="lg:col-span-1">
-          {(showAddForm || editingItem) && (
+        {(showAddForm || editingItem) && (
+          <div className="lg:col-span-1">
             <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 sticky top-6">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 {editingItem ? 'Edit Milestone' : 'Add New Milestone'}
@@ -335,11 +335,11 @@ const Storyboard = () => {
                 </div>
               </form>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Timeline */}
-        <div className="lg:col-span-3">
+        <div className={showAddForm || editingItem ? "lg:col-span-2" : "lg:col-span-3"}>
           {/* Storyboard Info */}
           <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 p-6 mb-6">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
