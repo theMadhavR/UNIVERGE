@@ -230,6 +230,26 @@ app.put('/api/users/theme', authenticateToken, async (req, res) => {
   }
 });
 
+// Search users by email or name
+app.get('/api/users/search', authenticateToken, async (req, res) => {
+  const { q } = req.query;
+  if (!q) return res.json([]);
+  
+  try {
+    const result = await pool.query(
+      `SELECT id, email, first_name, last_name, user_type 
+       FROM users 
+       WHERE id != $1 AND (email ILIKE $2 OR first_name ILIKE $2 OR last_name ILIKE $2) 
+       ORDER BY email ASC LIMIT 10`,
+      [req.user.id, '%' + q + '%']
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error searching users' });
+  }
+});
+
 // Health check and mock fallbacks
 app.get('/api/matching/alumni', authenticateToken, (req, res) => {
   res.json({

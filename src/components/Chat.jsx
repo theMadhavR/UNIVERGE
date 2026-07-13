@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useSocket } from '../hooks/useSocket';
+import api from '../utils/api';
 import { 
   MessageCircle, 
   Send, 
   Users, 
   Search,
   MoreVertical,
-  Phone,
-  Video,
+  Menu,
   Info,
   Paperclip,
   Smile,
@@ -26,6 +26,12 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [blockedContacts, setBlockedContacts] = useState(() => {
+    const saved = localStorage.getItem('blocked_contacts');
+    return saved ? JSON.parse(saved) : [];
+  });
   
   const messagesEndRef = useRef(null);
 
@@ -241,6 +247,83 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setSearchSuggestions([]);
+      return;
+    }
+
+    const delayDebounceFn = setTimeout(async () => {
+      try {
+        const response = await api.get(`/api/users/search?q=${encodeURIComponent(searchTerm)}`);
+        setSearchSuggestions(response.data);
+      } catch (err) {
+        console.error("Error fetching user search suggestions:", err);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+  const handleSelectSuggestion = (selectedUser) => {
+    setSearchTerm('');
+    setSearchSuggestions([]);
+
+    const existingChat = chats.find(c => c.other_participant?.user_id === selectedUser.id);
+    if (existingChat) {
+      selectChat(existingChat);
+      return;
+    }
+
+    const newChat = {
+      chat_id: 'chat_new_' + Date.now(),
+      participants: [currentUser?.uid || 'user_1', selectedUser.id],
+      last_message: null,
+      unread_count: 0,
+      other_participant: {
+        user_id: selectedUser.id,
+        display_name: `${selectedUser.first_name} ${selectedUser.last_name}`,
+        email: selectedUser.email,
+        user_type: selectedUser.user_type
+      }
+    };
+
+    setChats(prev => [newChat, ...prev]);
+    setActiveChat(newChat);
+    setMessages([]);
+  };
+
+  const isBlocked = (userId) => blockedContacts.includes(userId);
+
+  const handleToggleBlock = () => {
+    setMenuOpen(false);
+    const otherId = activeChat?.other_participant?.user_id;
+    if (!otherId) return;
+    setBlockedContacts(prev => {
+      const updated = prev.includes(otherId) 
+        ? prev.filter(id => id !== otherId) 
+        : [...prev, otherId];
+      localStorage.setItem('blocked_contacts', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const handleClearChat = () => {
+    setMenuOpen(false);
+    setMessages([]);
+    setChats(prev => prev.map(c => 
+      c.chat_id === activeChat?.chat_id 
+        ? { ...c, last_message: null } 
+        : c
+    ));
+  };
+
+  const handleDeleteContact = () => {
+    setMenuOpen(false);
+    setChats(prev => prev.filter(c => c.chat_id !== activeChat?.chat_id));
+    setActiveChat(null);
+  };
+
   const filteredChats = chats.filter(chat => 
     chat.other_participant?.display_name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -305,11 +388,40 @@ const Chat = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search conversations..."
+                placeholder="Search Gmail ID or name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+              
+              {/* Autocomplete Search Suggestions Dropdown */}
+              {searchSuggestions.length > 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                  {searchSuggestions.map(user => (
+                    <div
+                      key={user.id}
+                      onClick={() => handleSelectSuggestion(user)}
+                      className="p-3 border-b border-gray-100 dark:border-slate-800 last:border-0 hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer flex items-center justify-between transition-colors"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                          {user.first_name} {user.last_name}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                      <span className={`text-xs ml-2 px-2 py-0.5 rounded-full shrink-0 font-medium ${
+                        user.user_type === 'alumni' 
+                          ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' 
+                          : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
+                      }`}>
+                        {user.user_type}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -390,16 +502,38 @@ const Chat = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    <Phone className="h-5 w-5" />
+                <div className="relative">
+                  <button 
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg focus:outline-none"
+                    aria-label="Chat options"
+                  >
+                    <Menu className="h-5 w-5" />
                   </button>
-                  <button className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    <Video className="h-5 w-5" />
-                  </button>
-                  <button className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    <Info className="h-5 w-5" />
-                  </button>
+                  
+                  {/* Hamburger Menu Dropdown */}
+                  {menuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg z-50 py-1 text-sm">
+                      <button
+                        onClick={handleToggleBlock}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200"
+                      >
+                        {isBlocked(activeChat.other_participant.user_id) ? 'Unblock Contact' : 'Block Contact'}
+                      </button>
+                      <button
+                        onClick={handleClearChat}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200"
+                      >
+                        Clear Chat
+                      </button>
+                      <button
+                        onClick={handleDeleteContact}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-700 text-red-650 dark:text-red-400 font-medium"
+                      >
+                        Delete Contact
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -456,28 +590,36 @@ const Chat = () => {
               {/* Message Input */}
               <div className="p-4 border-t border-gray-200 dark:border-slate-800">
                 <div className="flex space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-650 dark:hover:text-blue-400 transition-colors">
-                    <Paperclip className="h-5 w-5" />
-                  </button>
-                  <button className="p-2 text-gray-400 hover:text-blue-650 dark:hover:text-blue-400 transition-colors">
-                    <Smile className="h-5 w-5" />
-                  </button>
-                  <input
-                    type="text"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Type a message..."
-                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                  
-                  <button
-                    onClick={sendMessage}
-                    disabled={!newMessage.trim()}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <Send className="h-4 w-4" />
-                  </button>
+                  {isBlocked(activeChat.other_participant.user_id) ? (
+                    <div className="flex-1 py-2 text-center text-sm bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 rounded-lg">
+                      This contact is blocked. Unblock from the menu to send messages.
+                    </div>
+                  ) : (
+                    <>
+                      <button className="p-2 text-gray-400 hover:text-blue-655 dark:hover:text-blue-400 transition-colors">
+                        <Paperclip className="h-5 w-5" />
+                      </button>
+                      <button className="p-2 text-gray-400 hover:text-blue-655 dark:hover:text-blue-400 transition-colors">
+                        <Smile className="h-5 w-5" />
+                      </button>
+                      <input
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Type a message..."
+                        className="flex-1 px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                      
+                      <button
+                        onClick={sendMessage}
+                        disabled={!newMessage.trim()}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <Send className="h-4 w-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </>
