@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AuthProvider } from './hooks/useAuth';
+import { AuthProvider, useAuth } from './hooks/useAuth';
 import { SocketProvider } from './hooks/useSocket';
 import { ThemeProvider, useTheme } from './hooks/useTheme';
 import Layout from './components/Layout';
@@ -16,6 +16,7 @@ import Chat from './components/Chat';
 
 function ThemeApplier() {
   const { theme } = useTheme();
+  const { userProfile } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -29,6 +30,17 @@ function ThemeApplier() {
       }
     }
   }, [theme, location.pathname]);
+
+  useEffect(() => {
+    const userType = userProfile?.user_type || 'student';
+    if (userType === 'alumni') {
+      document.documentElement.classList.add('theme-alumni');
+      document.documentElement.classList.remove('theme-student');
+    } else {
+      document.documentElement.classList.add('theme-student');
+      document.documentElement.classList.remove('theme-alumni');
+    }
+  }, [userProfile]);
 
   return null;
 }
