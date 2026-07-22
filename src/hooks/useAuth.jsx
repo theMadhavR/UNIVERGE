@@ -1,5 +1,4 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import api from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -16,33 +15,41 @@ export function AuthProvider({ children }) {
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Mock authentication functions for development
   const signup = async (email, password, userData) => {
-    const response = await api.post('/api/auth/register', {
-      email,
-      password,
-      first_name: userData.first_name,
-      last_name: userData.last_name,
-      user_type: userData.user_type
-    });
-    
-    const { token, user } = response.data;
-    localStorage.setItem('auth_token', token);
-    setCurrentUser({ uid: user.id, email: user.email, user_type: user.user_type });
-    setUserProfile(user);
+    console.log('Mock signup:', email, userData);
+    const user = {
+      uid: 'mock_user_' + Date.now(),
+      email: email,
+      ...userData
+    };
+    setCurrentUser(user);
+    setUserProfile(userData);
+    localStorage.setItem('auth_token', 'mock_token_' + user.uid);
     return { user };
   };
 
   const login = async (email, password) => {
-    const response = await api.post('/api/auth/login', { email, password });
-    const { token, user } = response.data;
-    localStorage.setItem('auth_token', token);
-    setCurrentUser({ uid: user.id, email: user.email, user_type: user.user_type });
-    setUserProfile(user);
-    if (user.theme) {
-      localStorage.setItem('theme', user.theme);
-      // Dispatch storage or custom event to force useTheme context update if needed
-      window.dispatchEvent(new Event('theme-changed'));
-    }
+    console.log('Mock login:', email);
+    const user = {
+      uid: 'mock_user_' + Date.now(),
+      email: email,
+      user_type: email.includes('alumni') ? 'alumni' : 'student'
+    };
+    setCurrentUser(user);
+    localStorage.setItem('auth_token', 'mock_token_' + user.uid);
+    return { user };
+  };
+
+  const loginWithGoogle = async () => {
+    console.log('Mock Google login');
+    const user = {
+      uid: 'mock_google_user_' + Date.now(),
+      email: 'user@gmail.com',
+      displayName: 'Google User'
+    };
+    setCurrentUser(user);
+    localStorage.setItem('auth_token', 'mock_google_token');
     return { user };
   };
 
@@ -53,36 +60,26 @@ export function AuthProvider({ children }) {
   };
 
   const updateUserProfile = async (profileData) => {
-    const response = await api.put('/api/users/profile', profileData);
-    const { user } = response.data;
-    setUserProfile(user);
-    return user;
+    if (currentUser) {
+      const updatedProfile = { ...userProfile, ...profileData };
+      setUserProfile(updatedProfile);
+      return updatedProfile;
+    }
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem('auth_token');
-      if (token) {
-        try {
-          const response = await api.get('/api/users/me');
-          const user = response.data;
-          setCurrentUser({ uid: user.id, email: user.email, user_type: user.user_type });
-          setUserProfile(user);
-          if (user.theme) {
-            localStorage.setItem('theme', user.theme);
-          }
-        } catch (err) {
-          console.error("Session restoration failed:", err);
-          // Token expired or invalid
-          localStorage.removeItem('auth_token');
-          setCurrentUser(null);
-          setUserProfile(null);
-        }
-      }
-      setLoading(false);
-    };
-    
-    fetchUser();
+    // Check for existing auth on app start
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      // Mock user data
+      const mockUser = {
+        uid: 'mock_user_123',
+        email: 'user@example.com',
+        user_type: 'student'
+      };
+      setCurrentUser(mockUser);
+    }
+    setLoading(false);
   }, []);
 
   const value = {
@@ -90,6 +87,7 @@ export function AuthProvider({ children }) {
     userProfile,
     signup,
     login,
+    loginWithGoogle,
     logout,
     updateUserProfile,
     loading
